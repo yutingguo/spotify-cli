@@ -8,7 +8,7 @@ var pkg = require('./package.json');
 
 cli.setApp(pkg.name, pkg.version);
 
-cli.parse(null, ['play', 'pause', 'next', 'previous', 'status']);
+cli.parse(null, ['play', 'pause', 'next', 'previous', 'status','mute']);
 
 function nowPlaying() {
 	client.getTrack(function(err, track) {
@@ -77,6 +77,13 @@ cli.main(function (args, options) {
 				cli.progress(state.position / track.duration);
 			});
 		});
+	}
+	
+	if(cli.command == 'mute') {
+		client.muteVolume(function(err, state){
+			if (err) return cli.error(err);
+			cli.ok("muted!");
+		})
 	}
 
 });

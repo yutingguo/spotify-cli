@@ -8,7 +8,7 @@ var pkg = require('./package.json');
 
 cli.setApp(pkg.name, pkg.version);
 
-cli.parse(null, ['play', 'pause', 'next', 'previous', 'status','mute']);
+cli.parse(null, ['play', 'pause', 'next', 'previous', 'status','mute','unmute','up','down']);
 
 function nowPlaying() {
 	client.getTrack(function(err, track) {
@@ -85,5 +85,24 @@ cli.main(function (args, options) {
 			cli.ok("muted!");
 		})
 	}
+	
+	if(cli.command == 'down') {
+		client.volumeDown(function(err, state){
+			if (err) return cli.error(err);
+			cli.ok("volume down!");
+		})
+	}
+	if(cli.command == 'up') {
+		client.volumeUp(function(err, state){
+			if (err) return cli.error(err);
+			cli.ok("volume up!");
+		})
+	}
 
+	if(cli.command == 'unmute') {
+		client.unmuteVolume(function(err, state){
+			if (err) return cli.error(err);
+			cli.ok("un muted!");
+		})
+	}
 });
